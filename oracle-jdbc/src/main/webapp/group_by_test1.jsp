@@ -25,7 +25,7 @@
 	String dbPw = "1234";
 	String dbUrl = "jdbc:oracle:thin:@localhost:1521:xe";
 	Class.forName(driver);
-	Connection conn = DriverManager.getConnection(dbUrl,dbUser, dbPw);
+	Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPw);
 	System.out.println(conn + " <-- conn");
 	
 	String sql = "SELECT department_id 부서ID, count(*) 부서인원, SUM(salary) 급여합계, ROUND(avg(salary)) 급여평균, MAX(salary) 최대급여, MIN(salary) 최소급여 FROM employees WHERE department_id IS NOT NULL GROUP BY department_id HAVING COUNT(*) > 1 ORDER BY 부서인원 DESC";
