@@ -56,7 +56,7 @@
 	
 	String rollUpSql = "select department_id 부서ID, job_id 직무ID, count(*) cnt from employees group by rollup(department_id, job_id)";
 	PreparedStatement rollUpStmt = conn.prepareStatement(rollUpSql);
-	ResultSet rollUpRs = groupByStmt.executeQuery();
+	ResultSet rollUpRs = rollUpStmt.executeQuery();
 	ArrayList<HashMap<String, Object>> list2 = new ArrayList<HashMap<String, Object>>();
 	while (rollUpRs.next()) {
 		HashMap<String, Object> m2 = new HashMap<String, Object>();
