@@ -9,6 +9,13 @@
 	sum(salary) over() 전체급여합계,
 	count(*) over() 전체사원수
 	from employees;
+
+	-> employees 테이블에서 employee_id, last_name, salary 열을 선택하고, 추가로 다음과 같은 분석 함수를 사용하여 계산된 열을 포함
+	round(avg(salary) over()): 전체 급여의 평균을 계산하고, round 함수를 사용하여 소수점 이하를 반올림한 값 반환
+	sum(salary) over(): 전체 급여의 합계를 계산하여 반환 (전체 사원의 급여 총합)
+	count(*) over(): 는 전체 사원의 수를 계산하여 반환
+	
+	employee_id, last_name, salary, 전체급여평균, 전체급여합계, 전체사원수 열이 포함된 테이블 반환 (각 행은 개별 사원의 정보와 함께 전체 급여의 평균, 합계, 전체 사원의 수가 함께 표시)
 	*/
 	
 	int currentPage = 1; // 기본 1페이지

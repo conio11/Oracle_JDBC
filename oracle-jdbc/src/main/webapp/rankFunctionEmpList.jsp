@@ -4,9 +4,12 @@
 <%@ page import="java.util.*" %>
 <%
 	/* 
-	select employee_id, last_name, salary, 
-	rank() over(order by salary desc) 급여순위
-	from employees;
+		select employee_id, last_name, salary, 
+		rank() over(order by salary desc) 급여순위
+		from employees;
+
+		-> employees 테이블에서 employee_id, last_name, salary 열을 선택하고 salary 열을 기준으로 내림차순으로 정렬한 뒤 순위를 매기는 작업 수행 
+		(over 내 order by는 결과행 정렬과 관계없음)
  	*/
  	
  	int currentPage = 1; // 기본 1페이지
