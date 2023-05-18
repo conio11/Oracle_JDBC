@@ -44,6 +44,7 @@
    stmt.setInt(1, beginRow);
    stmt.setInt(2, endRow);
    ResultSet rs = stmt.executeQuery();
+   System.out.println(stmt + " <-- stmt(functionEmpList2)");
    
    ArrayList<HashMap<String, Object>> list = new ArrayList<>();
    while(rs.next()) {
@@ -98,8 +99,8 @@
 	   
    <%
 		// 페이지 네비게이션 페이징
-		int pagePerPage = 10; 
-		/* 
+		int pagePerPage = 10; // [이전] [다음] 탭 사이 페이지 개수
+		/* cp: currentPage
 			cp  minPage ~ maxPage
 			1    1 		~ 	10
 			2 	 1 		~ 	10
@@ -114,41 +115,43 @@
 			maxPage > lastPage --> maxPage = lastPage
 		 */
 		 
-		 int lastPage = totalRow / rowPerPage;
+		 // lastPage: 최대 currentPage
+		 // 마지막 페이지: 전체 행 수 / 페이지별 행 수 
+		 int lastPage = totalRow / rowPerPage; 
 		 if (totalRow % rowPerPage != 0) {
 			 lastPage = lastPage + 1;
 		 }
 		 
+		 // minPage: [이전] [다음] 탭 사이 가장 작은 숫자
+		 // maxPage: [이전] [다음] 탭 사이 가장 큰 숫자
 		 int minPage = ((currentPage - 1) / pagePerPage) * pagePerPage + 1;
 		 int maxPage = minPage + (pagePerPage - 1);
-		 if (maxPage > lastPage) {
+		 if (maxPage > lastPage) { // maxPage가 마지막 페이지(최대 currentPage) 보다 클 수 없음
 			 maxPage = lastPage;
 		 }
 		 
-		 if (minPage > 1) {
+		 if (minPage > 1) { // 현재 페이지의 minPage가 첫 페이지의 minPage인 1보다 클 때 (여기서는 11, 21, ,,,) 이전 버튼 생성
  	%>
-	 		<a href="<%=request.getContextPath()%>/functionEmpList2.jsp?currentPage=<%=minPage - pagePerPage%>">이전</a>
+	 		<a href="<%=request.getContextPath()%>/functionEmpList2.jsp?currentPage=<%=minPage - pagePerPage%>">이전</a> <!-- ex) minPage가 11이면 11 - 10: 1페이지로 이동 -->
     <% 
 		 }
 		 
-    	for (int i = minPage; i <= maxPage; i = i + 1) {
+    	for (int i = minPage; i <= maxPage; i = i + 1) { // [이전] [다음] 탭 사이 반복
     		if (i == currentPage) {
     %> 
-    			<span><%=i%></span>
-    			
+    			<span><%=i%></span> <!-- 현재 페이지(선택한 페이지) 번호를 링크 없이 표시 -->	
 	<%
-    		} else {
+    		} else { // 나머지 페이지(선택되지 않은 페이지) 번호를 링크로 표시 -> 링크 클릭 시 해당 번호 페이지로 이동
 	%>
-	   		
 	   			<a href="<%=request.getContextPath()%>/functionEmpList2.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;
 	   		<!-- page + 1 -->
     <%	 
     		}
     	}
     	
-    	if (maxPage != lastPage) {
+    	if (maxPage < lastPage) { // [이전] [다음] 탭 사이 가장 큰 숫자가 마지막 페이지와 다르면 다음 버튼 생성 
     %>
-	   		<a href="<%=request.getContextPath()%>/functionEmpList2.jsp?currentPage=<%=minPage + pagePerPage%>">다음</a>
+	   		<a href="<%=request.getContextPath()%>/functionEmpList2.jsp?currentPage=<%=minPage + pagePerPage%>">다음</a> <!-- ex) minPage가 1이면 1 + 10: 11페이지로 이동  -->
 	<%
     	}
 	%>
