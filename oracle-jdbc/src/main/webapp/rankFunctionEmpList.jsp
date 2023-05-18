@@ -42,7 +42,7 @@
 	   endRow = totalRow;
    }
  	
-   String sql = "select 번호, 사원ID, 이름, 연봉, 급여순위 from (select rownum 번호, 사원ID, 이름, 연봉, 급여순위 from (select rownum 번호, employee_id 사원ID, last_name 이름, salary 연봉, rank() over(order by salary desc) 급여순위 from employees)) where 번호 between ? and ?";
+   String sql = "select 번호, 사원ID, 이름, 연봉, 급여순위 from (select rownum 번호, 사원ID, 이름, 연봉, 급여순위 from (select employee_id 사원ID, last_name 이름, salary 연봉, rank() over(order by salary desc) 급여순위 from employees)) where 번호 between ? and ?";
    PreparedStatement stmt = conn.prepareStatement(sql);
    stmt.setInt(1, beginRow);
    stmt.setInt(2, endRow);
