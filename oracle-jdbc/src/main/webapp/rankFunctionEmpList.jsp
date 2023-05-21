@@ -26,6 +26,7 @@
    Connection conn = DriverManager.getConnection(dburl, dbuser, dbpw);
    System.out.println(conn);
  	
+   // 페이징
    int totalRow = 0;
    String totalRowSql = "select count(*) from employees";
    PreparedStatement totalRowStmt = conn.prepareStatement(totalRowSql);
@@ -45,6 +46,7 @@
 	   endRow = totalRow;
    }
  	
+   // where 절에 급여순위(번호) alias를 사용하기 위해 from절에 서브쿼리 사용
    String sql = "select 번호, 사원ID, 이름, 연봉, 급여순위 from (select rownum 번호, 사원ID, 이름, 연봉, 급여순위 from (select employee_id 사원ID, last_name 이름, salary 연봉, rank() over(order by salary desc) 급여순위 from employees)) where 번호 between ? and ?";
    PreparedStatement stmt = conn.prepareStatement(sql);
    stmt.setInt(1, beginRow);

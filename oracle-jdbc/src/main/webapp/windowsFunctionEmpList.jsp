@@ -51,6 +51,7 @@
 	   endRow = totalRow;
    }
    
+   // where 절에 급여순위(번호) alias를 사용하기 위해 from절에 서브쿼리 사용
    String sql = "select 번호, 사원ID, 이름, 연봉, 전체급여평균, 전체급여합계, 전체사원수 from (select rownum 번호, employee_id 사원ID, last_name 이름, salary 연봉, round(avg(salary) over()) 전체급여평균, sum(salary) over() 전체급여합계, count(*) over() 전체사원수 from employees) where 번호 between ? and ?";
    PreparedStatement stmt = conn.prepareStatement(sql);
    stmt.setInt(1, beginRow);
